@@ -6,7 +6,7 @@ export const AUTHOR_EMOJI = '🌱';
 export const AUTHOR_BIO = '오늘의 일상과 배운 것들을 차곡차곡 기록하고 있어요.';
 
 export const SOCIAL = {
-	github: 'https://github.com/',
+	github: 'https://github.com/xcdev-0',
 	email: '',
 };
 
