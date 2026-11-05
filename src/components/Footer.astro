@@ -1,0 +1,46 @@
+---
+import { AUTHOR, SOCIAL } from '../consts';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="container inner">
+		<p>© {year} {AUTHOR}. 천천히, 꾸준히 기록합니다.</p>
+		<div class="links">
+			{SOCIAL.github && <a href={SOCIAL.github} target="_blank" rel="noopener">GitHub</a>}
+			{SOCIAL.email && <a href={`mailto:${SOCIAL.email}`}>Email</a>}
+			<a href="/rss.xml">RSS</a>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		margin-top: 5rem;
+		border-top: 1px solid var(--border);
+		color: var(--text-muted);
+		font-size: 0.9rem;
+	}
+	.inner {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5rem 1rem;
+		padding-top: 2rem;
+		padding-bottom: 2.5rem;
+	}
+	p {
+		margin: 0;
+	}
+	.links {
+		display: flex;
+		gap: 1rem;
+	}
+	a {
+		text-decoration: none;
+	}
+	a:hover {
+		color: var(--accent);
+	}
+</style>

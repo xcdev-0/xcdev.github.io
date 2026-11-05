@@ -1,0 +1,85 @@
+---
+import { AUTHOR, AUTHOR_BIO, AUTHOR_EMOJI, SOCIAL } from '../consts';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="소개" description={AUTHOR_BIO}>
+	<div class="container-narrow">
+		<section class="profile">
+			<div class="avatar">{AUTHOR_EMOJI}</div>
+			<h1>{AUTHOR}</h1>
+			<p class="bio">{AUTHOR_BIO}</p>
+			<div class="links">
+				{SOCIAL.github && <a href={SOCIAL.github} target="_blank" rel="noopener">GitHub</a>}
+				{SOCIAL.email && <a href={`mailto:${SOCIAL.email}`}>Email</a>}
+			</div>
+		</section>
+
+		<div class="prose">
+			<h2>이 블로그는요</h2>
+			<p>
+				하루하루의 소소한 일상과, 개발하면서 배우고 만든 것들을 기록하는 공간이에요. 잘 쓴 글보다
+				꾸준히 쓰는 글을 목표로 하고 있어요.
+			</p>
+			<h2>관심 있는 것들</h2>
+			<ul>
+				<li>☕️ 카페 탐방, 산책, 맛있는 것</li>
+				<li>💻 웹 개발, 새로 나온 기술 만져보기</li>
+				<li>📚 책 읽고 짧게 남기기</li>
+			</ul>
+			<p class="hint">
+				💡 이 페이지는 <code>src/pages/about.astro</code>에서, 이름과 소개는
+				<code>src/consts.ts</code>에서 수정할 수 있어요.
+			</p>
+		</div>
+	</div>
+</Base>
+
+<style>
+	.profile {
+		text-align: center;
+		padding: 4rem 0 2rem;
+	}
+	.avatar {
+		display: grid;
+		place-items: center;
+		width: 104px;
+		height: 104px;
+		margin: 0 auto 1.2rem;
+		font-size: 3rem;
+		border-radius: 50%;
+		background: linear-gradient(135deg, var(--daily-soft), var(--dev-soft));
+		border: 3px solid var(--bg-elev);
+		box-shadow: var(--shadow);
+	}
+	h1 {
+		margin: 0;
+		font-size: 2rem;
+		letter-spacing: -0.03em;
+	}
+	.bio {
+		margin: 0.4rem 0 1rem;
+		color: var(--text-muted);
+	}
+	.links {
+		display: flex;
+		justify-content: center;
+		gap: 0.6rem;
+	}
+	.links a {
+		padding: 0.4rem 1rem;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		font-size: 0.9rem;
+		text-decoration: none;
+	}
+	.links a:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+	.hint {
+		margin-top: 2rem;
+		font-size: 0.92rem;
+		color: var(--text-muted);
+	}
+</style>

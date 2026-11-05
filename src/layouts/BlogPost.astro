@@ -1,0 +1,187 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+import { CATEGORIES } from '../consts';
+import Base from './Base.astro';
+
+type Props = CollectionEntry<'blog'>['data'] & {
+	minutes: number;
+	newer?: CollectionEntry<'blog'>;
+	older?: CollectionEntry<'blog'>;
+};
+
+const { title, description, pubDate, updatedDate, heroImage, category, tags, minutes, newer, older } =
+	Astro.props;
+const cat = CATEGORIES[category];
+---
+
+<Base title={title} description={description} image={heroImage}>
+	<article>
+		<header class="post-header container-narrow">
+			<a href={`/category/${category}`} class:list={['badge', `badge-${category}`]}>
+				{cat.emoji} {cat.label}
+			</a>
+			<h1>{title}</h1>
+			<p class="desc">{description}</p>
+			<div class="meta">
+				<FormattedDate date={pubDate} />
+				<span>·</span>
+				<span>{minutes}분 분량</span>
+				{
+					updatedDate && (
+						<>
+							<span>·</span>
+							<span>
+								수정 <FormattedDate date={updatedDate} />
+							</span>
+						</>
+					)
+				}
+			</div>
+		</header>
+
+		{
+			heroImage && (
+				<div class="hero-image container">
+					<Image width={1020} height={510} src={heroImage} alt="" />
+				</div>
+			)
+		}
+
+		<div class="prose container-narrow">
+			<slot />
+		</div>
+
+		<footer class="post-footer container-narrow">
+			{
+				tags.length > 0 && (
+					<div class="tags">
+						{tags.map((t) => (
+							<span class="tag-chip">#{t}</span>
+						))}
+					</div>
+				)
+			}
+			<nav class="pager">
+				{
+					older ? (
+						<a href={`/blog/${older.id}/`} class="pager-item">
+							<span>← 이전 글</span>
+							<strong>{older.data.title}</strong>
+						</a>
+					) : (
+						<span />
+					)
+				}
+				{
+					newer && (
+						<a href={`/blog/${newer.id}/`} class="pager-item next">
+							<span>다음 글 →</span>
+							<strong>{newer.data.title}</strong>
+						</a>
+					)
+				}
+			</nav>
+		</footer>
+	</article>
+</Base>
+
+<style>
+	.post-header {
+		padding-top: 4rem;
+		padding-bottom: 2rem;
+		text-align: center;
+	}
+	.post-header .badge {
+		text-decoration: none;
+	}
+	h1 {
+		margin: 1rem 0 0.6rem;
+		font-size: clamp(1.9rem, 5vw, 2.6rem);
+		line-height: 1.3;
+		letter-spacing: -0.04em;
+	}
+	.desc {
+		margin: 0 0 1rem;
+		color: var(--text-muted);
+		font-size: 1.08rem;
+	}
+	.meta {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		font-size: 0.9rem;
+		color: var(--text-muted);
+	}
+	.hero-image {
+		margin-bottom: 2.5rem;
+	}
+	.hero-image img {
+		display: block;
+		width: 100%;
+		border-radius: var(--radius);
+		box-shadow: var(--shadow);
+	}
+	.prose {
+		padding-top: 1rem;
+	}
+	.post-footer {
+		margin-top: 3rem;
+	}
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		padding-bottom: 2rem;
+		border-bottom: 1px solid var(--border);
+	}
+	.tag-chip {
+		padding: 0.25rem 0.75rem;
+		border-radius: 999px;
+		background: var(--bg-soft);
+		color: var(--text-muted);
+		font-size: 0.85rem;
+	}
+	.pager {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+		margin-top: 2rem;
+	}
+	.pager-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		padding: 1rem 1.2rem;
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		background: var(--bg-elev);
+		text-decoration: none;
+		transition: border-color 0.2s ease;
+	}
+	.pager-item:hover {
+		border-color: var(--accent);
+	}
+	.pager-item span {
+		font-size: 0.82rem;
+		color: var(--text-muted);
+	}
+	.pager-item strong {
+		font-size: 0.98rem;
+		line-height: 1.4;
+	}
+	.next {
+		grid-column: 2;
+		text-align: right;
+	}
+	@media (max-width: 600px) {
+		.pager {
+			grid-template-columns: 1fr;
+		}
+		.next {
+			grid-column: 1;
+		}
+	}
+</style>
